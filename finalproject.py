@@ -1,12 +1,12 @@
 import arcade
 import random
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 500
 SCREEN_TITLE = "final project"
 SPRITE_SCALING_CAR = 0.07
-SPRITE_SCALING_COIN = 0.02
-SPRITE_SCALING_ROCK = 0.02
+SPRITE_SCALING_COIN = 0.1
+SPRITE_SCALING_ROCK = 0.1
 COIN_COUNT = 50
 ROCK_COUNT = 50
 speed = 5
@@ -40,7 +40,7 @@ class MyGame(arcade.Window):
         self.score = 0
         self.car = None
         self.set_mouse_visible(False)
-        self.background = arcade.load_texture("black.png")
+        self.background = arcade.load_texture("black2.png")
         self.sound = arcade.load_sound("MenuTheme.wav")
 
     def setup(self):
@@ -50,23 +50,26 @@ class MyGame(arcade.Window):
         self.score = 0
         self.car = arcade.AnimatedWalkingSprite()
 
-        car_scale = 0.7
+        car_scale = 3
+
+        self.car.stand_right_textures = []
+        self.car.stand_right_textures.append(arcade.load_texture("car_middle.png",
+                                                                 scale=car_scale))
+        self.car.stand_left_textures = []
+        self.car.stand_left_textures.append(arcade.load_texture("car_middle.png",
+                                                                scale=car_scale, mirrored=True))
 
         self.car.walk_right_textures = []
-        self.car.stand_right_textures = []
         self.car.walk_right_textures.append(arcade.load_texture("car_right.png", scale=car_scale))
-        self.car.stand_right_textures.append(arcade.load_texture("car_right.png", scale=car_scale))
 
         self.car.walk_left_textures = []
-        self.car.stand_left_textures = []
-        self.car.walk_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale, mirrored=True))
-        self.car.stand_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale, mirrored=True))
+        self.car.walk_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale))
 
         self.car.texture_change_distance = 5
 
         self.car.center_x = 50
         self.car.center_y = 50
-        self.car.scale = 5
+        self.car.scale = 2
         self.Car_list.append(self.car)
 
         for i in range(COIN_COUNT):
