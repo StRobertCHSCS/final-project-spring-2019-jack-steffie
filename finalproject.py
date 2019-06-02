@@ -69,7 +69,7 @@ class MyGame(arcade.Window):
 
         self.car.center_x = 50
         self.car.center_y = 50
-        self.car.scale = 2
+        self.car.scale = 1.5
         self.Car_list.append(self.car)
 
         for i in range(COIN_COUNT):
