@@ -102,14 +102,6 @@ class MyGame(arcade.Window):
             self.car.velocity[0] = speed
         elif key == arcade.key.D:
             self.car.velocity[0] = speed
-        elif key == arcade.key.UP:
-            self.car.velocity[1] = speed
-        elif key == arcade.key.W:
-            self.car.velocity[1] = speed
-        elif key == arcade.key.DOWN:
-            self.car.velocity[1] = -speed
-        elif key == arcade.key.S:
-            self.car.velocity[1] = -speed
         elif key == arcade.key.SPACE:
             arcade.play_sound(self.sound)
 
@@ -118,10 +110,6 @@ class MyGame(arcade.Window):
             self.car.velocity[0] = 0
         elif key == arcade.key.A or key == arcade.key.D:
             self.car.velocity[0] = 0
-        elif key == arcade.key.UP or key == arcade.key.DOWN:
-            self.car.velocity[1] = 0
-        elif key == arcade.key.W or key == arcade.key.S:
-            self.car.velocity[1] = 0
 
     def update(self, delta_time):
         self.Car_list.update()
