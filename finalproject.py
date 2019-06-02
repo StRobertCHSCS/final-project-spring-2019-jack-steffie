@@ -53,10 +53,14 @@ class MyGame(arcade.Window):
         car_scale = 0.7
 
         self.car.walk_right_textures = []
+        self.car.stand_right_textures = []
         self.car.walk_right_textures.append(arcade.load_texture("car_right.png", scale=car_scale))
+        self.car.stand_right_textures.append(arcade.load_texture("car_right.png", scale=car_scale))
 
         self.car.walk_left_textures = []
+        self.car.stand_left_textures = []
         self.car.walk_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale, mirrored=True))
+        self.car.stand_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale, mirrored=True))
 
         self.car.texture_change_distance = 5
 
