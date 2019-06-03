@@ -7,8 +7,8 @@ SCREEN_TITLE = "final project"
 SPRITE_SCALING_CAR = 0.07
 SPRITE_SCALING_COIN = 0.1
 SPRITE_SCALING_ROCK = 0.1
-COIN_COUNT = 50
-ROCK_COUNT = 50
+COIN_COUNT = 10
+ROCK_COUNT = 10
 speed = 5
 
 
@@ -69,7 +69,7 @@ class MyGame(arcade.Window):
 
         self.car.center_x = 50
         self.car.center_y = 50
-        self.car.scale = 1.5
+        self.car.scale = 0.8
         self.Car_list.append(self.car)
 
         for i in range(COIN_COUNT):
