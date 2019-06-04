@@ -40,7 +40,7 @@ class MyGame(arcade.Window):
         self.score = 0
         self.car = None
         self.set_mouse_visible(False)
-        self.background = arcade.load_texture("black2.png")
+        self.background = arcade.load_texture("black3.jpg")
         self.sound = arcade.load_sound("MenuTheme.wav")
 
     def setup(self):
@@ -49,21 +49,23 @@ class MyGame(arcade.Window):
         self.Rock_list = arcade.SpriteList()
         self.score = 0
         self.car = arcade.AnimatedWalkingSprite()
+        self.car.boundary_left = 0
+        self.car.boundary_right = 1000
 
         car_scale = 3
 
         self.car.stand_right_textures = []
-        self.car.stand_right_textures.append(arcade.load_texture("car_middle.png",
+        self.car.stand_right_textures.append(arcade.load_texture("car_middle2.png",
                                                                  scale=car_scale))
         self.car.stand_left_textures = []
-        self.car.stand_left_textures.append(arcade.load_texture("car_middle.png",
+        self.car.stand_left_textures.append(arcade.load_texture("car_middle2.png",
                                                                 scale=car_scale, mirrored=True))
 
         self.car.walk_right_textures = []
-        self.car.walk_right_textures.append(arcade.load_texture("car_right.png", scale=car_scale))
+        self.car.walk_right_textures.append(arcade.load_texture("car_right2.jpg", scale=car_scale))
 
         self.car.walk_left_textures = []
-        self.car.walk_left_textures.append(arcade.load_texture("car_left.png", scale=car_scale))
+        self.car.walk_left_textures.append(arcade.load_texture("car_left2.jpg", scale=car_scale))
 
         self.car.texture_change_distance = 5
 
@@ -86,7 +88,7 @@ class MyGame(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_texture_rectangle(400, 300, 800, 600, self.background)
+        arcade.draw_texture_rectangle(500, 250, 1000, 500, self.background)
         self.Coin_list.draw()
         self.Rock_list.draw()
         self.Car_list.draw()
@@ -116,6 +118,13 @@ class MyGame(arcade.Window):
         self.Car_list.update_animation()
         self.Coin_list.update()
         self.Rock_list.update()
+
+        for car in self.Car_list:
+            if car.boundary_left is not None and car.left < car.boundary_left:
+                car.change_x = 0
+            elif car.boundary_right is not None and car.right > car.boundary_right:
+                car.change_x = 0
+
         hit_list1 = arcade.check_for_collision_with_list(self.car,
                                                          self.Coin_list)
         for coin in hit_list1:
