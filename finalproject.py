@@ -4,7 +4,6 @@ import random
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 500
 SCREEN_TITLE = "final project"
-SPRITE_SCALING_CAR = 0.07
 SPRITE_SCALING_COIN = 0.1
 SPRITE_SCALING_ROCK = 0.1
 COIN_COUNT = 10
@@ -56,10 +55,10 @@ class MyGame(arcade.Window):
 
         self.car.stand_right_textures = []
         self.car.stand_right_textures.append(arcade.load_texture("car_middle2.png",
-                                                                 scale=car_scale))
+                                                                 scale=car_scale * 0.5))
         self.car.stand_left_textures = []
         self.car.stand_left_textures.append(arcade.load_texture("car_middle2.png",
-                                                                scale=car_scale, mirrored=True))
+                                                                scale=car_scale * 0.5))
 
         self.car.walk_right_textures = []
         self.car.walk_right_textures.append(arcade.load_texture("car_right2.jpg", scale=car_scale))
@@ -71,7 +70,7 @@ class MyGame(arcade.Window):
 
         self.car.center_x = 50
         self.car.center_y = 50
-        self.car.scale = 0.8
+        self.car.scale = 0.7
         self.Car_list.append(self.car)
 
         for i in range(COIN_COUNT):
@@ -119,12 +118,6 @@ class MyGame(arcade.Window):
         self.Coin_list.update()
         self.Rock_list.update()
 
-        for car in self.Car_list:
-            if car.boundary_left is not None and car.left < car.boundary_left:
-                car.change_x = 0
-            elif car.boundary_right is not None and car.right > car.boundary_right:
-                car.change_x = 0
-
         hit_list1 = arcade.check_for_collision_with_list(self.car,
                                                          self.Coin_list)
         for coin in hit_list1:
@@ -136,6 +129,11 @@ class MyGame(arcade.Window):
         for rock in hit_list2:
             rock.kill()
             self.score -= 1
+
+        if self.car.center_x < 0:
+            self.car.center_x = SCREEN_WIDTH
+        if self.car.center_x > SCREEN_WIDTH:
+            self.car.center_x = 0
 
 
 def main():
