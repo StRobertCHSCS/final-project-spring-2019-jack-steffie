@@ -26,12 +26,14 @@ class MyGame(arcade.Window):
     def draw_menu(self):
         arcade.draw_rectangle_filled(self.width/2, self.height/2, 300, 60, arcade.color.DARK_GRAY)
         arcade.draw_text("Start game", self.width/2 - 110, self.height/2 - 20, arcade.color.WHITE, 36)
-        arcade.draw_rectangle_filled( self.width/2, self.height/3, 300, 60, arcade.color.DARK_BLUE_GRAY)
-        arcade.draw_text("Store", self.width /2, 100, arcade.color.WHITE, 18)
+        arcade.draw_rectangle_filled(self.width/2, self.height/3, 300, 60, arcade.color.DARK_BLUE_GRAY)
+        arcade.draw_text("Store", self.width / 2 - 25, self.height/3, arcade.color.WHITE, 18)
         arcade.draw_text("Highest Score: ", self.width*4/5, self.height*2/3, arcade.color.BLACK)
 
     def draw_store(self):
         arcade.draw_text("Coin: ", self.width*3/4, self.height*5/6, arcade.color.WHITE, 18)
+        arrow_image = arcade.load_texture("Return_Arrow-512.png")
+        arcade.draw_texture_rectangle(100, 400, 40, 40, arrow_image)
 
     def draw_game_over(self):
         arcade.draw_text("Game Over", self.width/2, self.width/2, arcade.color.BRICK_RED, 54)
@@ -61,6 +63,9 @@ class MyGame(arcade.Window):
                     self.page = 1
                 elif self.height/3 - 10 < self.position_y < self.height/3 + 10:
                     self.page = 2
+        if self.page == 2:
+            if 80 < self.position_x < 120 and 380 < self.position_y < 420:
+                self.page = 0
         if self.page == 3:
             self.page = 0
 
