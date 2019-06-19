@@ -9,15 +9,16 @@ SPRITE_SCALING_ROCK = 0.1
 COIN_COUNT = 20
 ROCK_COUNT = 20
 speed = 5
-EXPLOSION_TEXTURE_COUNT = 60
+EXPLOSION_TEXTURE_COUNT = 58
 
 
 class Explosion(arcade.Sprite):
+    # Add Explosion Class
 
     explosion_textures = []
 
     def __init__(self, texture_list):
-        super().__init__("images/explosion/explosion0000.png")
+        super().__init__("images/explosion0000.png")
 
         self.current_texture = 0
         self.textures = texture_list
@@ -32,6 +33,7 @@ class Explosion(arcade.Sprite):
 
 
 class Coin(arcade.Sprite):
+    # Add Coin Class
     def __init__(self, filename, sprite_scaling):
         super().__init__(filename, sprite_scaling)
 
@@ -57,6 +59,7 @@ class Coin(arcade.Sprite):
 
 
 class Rock(arcade.Sprite):
+    # Add Rock Class
     def update(self):
         self.center_y -= 1
         if self.top < 0:
@@ -66,6 +69,7 @@ class Rock(arcade.Sprite):
 
 
 class MyGame(arcade.Window):
+    # MyGame Class
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.Car_list = None
@@ -79,11 +83,15 @@ class MyGame(arcade.Window):
         self.background = arcade.load_texture("timg.jpg")
         self.sound = arcade.load_sound("MenuTheme.wav")
         self.explosion_texture_list = []
+
         for i in range(EXPLOSION_TEXTURE_COUNT):
-            texture_name = f"images/explosion/explosion{i:04d}.png"
+
+            texture_name = f"images/explosion{i:04d}.png"
+
             self.explosion_texture_list.append(arcade.load_texture(texture_name))
 
     def setup(self):
+        # setup
         self.Car_list = arcade.SpriteList()
         self.Coin_list = arcade.SpriteList()
         self.Rock_list = arcade.SpriteList()
@@ -133,6 +141,7 @@ class MyGame(arcade.Window):
             self.Rock_list.append(rock)
 
     def on_draw(self):
+        # Draw everything
         arcade.start_render()
         arcade.draw_texture_rectangle(500, 250, 1000, 500, self.background)
         self.Coin_list.draw()
@@ -143,6 +152,7 @@ class MyGame(arcade.Window):
         arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
 
     def on_key_press(self, key, modifiers):
+        # User Control
         if key == arcade.key.LEFT:
             self.car.velocity[0] = -speed
         elif key == arcade.key.A:
@@ -155,12 +165,14 @@ class MyGame(arcade.Window):
             arcade.play_sound(self.sound)
 
     def on_key_release(self, key, modifiers):
+        # User Control
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.car.velocity[0] = 0
         elif key == arcade.key.A or key == arcade.key.D:
             self.car.velocity[0] = 0
 
     def update(self, delta_time):
+        # Update
         self.Car_list.update()
         self.Car_list.update_animation()
         self.Coin_list.update()
