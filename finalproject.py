@@ -6,9 +6,29 @@ SCREEN_HEIGHT = 500
 SCREEN_TITLE = "final project"
 SPRITE_SCALING_COIN = 0.1
 SPRITE_SCALING_ROCK = 0.1
-COIN_COUNT = 10
-ROCK_COUNT = 10
+COIN_COUNT = 20
+ROCK_COUNT = 20
 speed = 5
+EXPLOSION_TEXTURE_COUNT = 60
+
+
+class Explosion(arcade.Sprite):
+
+    explosion_textures = []
+
+    def __init__(self, texture_list):
+        super().__init__("images/explosion/explosion0000.png")
+
+        self.current_texture = 0
+        self.textures = texture_list
+
+    def update(self):
+
+        self.current_texture += 1
+        if self.current_texture < len(self.textures):
+            self.set_texture(self.current_texture)
+        else:
+            self.kill()
 
 
 class Coin(arcade.Sprite):
@@ -20,11 +40,9 @@ class Coin(arcade.Sprite):
 
     def update(self):
 
-        # Move the coin
         self.center_x += self.change_x
         self.center_y += self.change_y
 
-        # If we are out-of-bounds, then 'bounce'
         if self.left < 0:
             self.change_x *= -1
 
@@ -53,17 +71,23 @@ class MyGame(arcade.Window):
         self.Car_list = None
         self.Coin_list = None
         self.Rock_list = None
+        self.explosions_list = None
         self.Car_sprite = None
         self.score = 0
         self.car = None
         self.set_mouse_visible(False)
         self.background = arcade.load_texture("timg.jpg")
         self.sound = arcade.load_sound("MenuTheme.wav")
+        self.explosion_texture_list = []
+        for i in range(EXPLOSION_TEXTURE_COUNT):
+            texture_name = f"images/explosion/explosion{i:04d}.png"
+            self.explosion_texture_list.append(arcade.load_texture(texture_name))
 
     def setup(self):
         self.Car_list = arcade.SpriteList()
         self.Coin_list = arcade.SpriteList()
         self.Rock_list = arcade.SpriteList()
+        self.explosions_list = arcade.SpriteList()
         self.score = 0
         self.car = arcade.AnimatedWalkingSprite()
         self.car.boundary_left = 0
@@ -114,6 +138,7 @@ class MyGame(arcade.Window):
         self.Coin_list.draw()
         self.Rock_list.draw()
         self.Car_list.draw()
+        self.explosions_list.draw()
         output = f"Score: {self.score}"
         arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
 
@@ -140,7 +165,8 @@ class MyGame(arcade.Window):
         self.Car_list.update_animation()
         self.Coin_list.update()
         self.Rock_list.update()
-
+        self.explosions_list.update()
+        self.explosions_list = arcade.SpriteList()
         hit_list1 = arcade.check_for_collision_with_list(self.car,
                                                          self.Coin_list)
         for coin in hit_list1:
@@ -150,6 +176,11 @@ class MyGame(arcade.Window):
         hit_list2 = arcade.check_for_collision_with_list(self.car,
                                                          self.Rock_list)
         for rock in hit_list2:
+            if len(hit_list2) > 0:
+                explosion = Explosion(self.explosion_texture_list)
+                explosion.center_x = hit_list2[0].center_x
+                explosion.center_y = hit_list2[0].center_y
+                self.explosions_list.append(explosion)
             rock.kill()
             self.score -= 1
 
