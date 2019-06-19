@@ -85,7 +85,6 @@ class MyGame(arcade.Window):
         self.explosion_texture_list = []
 
         for i in range(EXPLOSION_TEXTURE_COUNT):
-
             texture_name = f"images/explosion{i:04d}.png"
 
             self.explosion_texture_list.append(arcade.load_texture(texture_name))
