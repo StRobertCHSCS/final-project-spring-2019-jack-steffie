@@ -12,12 +12,30 @@ speed = 5
 
 
 class Coin(arcade.Sprite):
+    def __init__(self, filename, sprite_scaling):
+        super().__init__(filename, sprite_scaling)
+
+        self.change_x = 0
+        self.change_y = 0
+
     def update(self):
-        self.center_y -= 1
-        if self.top < 0:
-            self.center_y = random.randrange(SCREEN_HEIGHT + 20,
-                                             SCREEN_HEIGHT + 100)
-            self.center_x = random.randrange(SCREEN_WIDTH)
+
+        # Move the coin
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        # If we are out-of-bounds, then 'bounce'
+        if self.left < 0:
+            self.change_x *= -1
+
+        if self.right > SCREEN_WIDTH:
+            self.change_x *= -1
+
+        if self.bottom < 0:
+            self.change_y *= -1
+
+        if self.top > SCREEN_HEIGHT:
+            self.change_y *= -1
 
 
 class Rock(arcade.Sprite):
@@ -39,7 +57,7 @@ class MyGame(arcade.Window):
         self.score = 0
         self.car = None
         self.set_mouse_visible(False)
-        self.background = arcade.load_texture("black3.jpg")
+        self.background = arcade.load_texture("timg.jpg")
         self.sound = arcade.load_sound("MenuTheme.wav")
 
     def setup(self):
@@ -70,13 +88,18 @@ class MyGame(arcade.Window):
 
         self.car.center_x = 50
         self.car.center_y = 50
-        self.car.scale = 0.7
+        self.car.scale = 1.5
         self.Car_list.append(self.car)
 
         for i in range(COIN_COUNT):
             coin = Coin("coin.gif", SPRITE_SCALING_COIN)
+            # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
             coin.center_y = random.randrange(SCREEN_HEIGHT)
+            coin.change_x = random.randrange(-3, 4)
+            coin.change_y = random.randrange(-3, 4)
+
+            # Add the coin to the lists
             self.Coin_list.append(coin)
 
         for i in range(ROCK_COUNT):
